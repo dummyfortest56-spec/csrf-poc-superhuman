@@ -5,7 +5,15 @@
 </form>
 
 <script>
-    document.getElementById('csrfForm').submit();
+    let count = 0;
+    const maxDocsToCreate = 10;
+    function submitForm(){
+        if (count < maxDocsToCreate) {
+            document.getElementById('csrfForm').submit();
+            count++;
+        }
+    }
+    submitForm();
 </script>
 </body>
 </html>
