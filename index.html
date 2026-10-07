@@ -9,8 +9,10 @@
             
    window.onload = function() {
         document.getElementById("csrfForm1").submit();
-        // to make 2nd form wait for 1st, put the following in a function and use as a callback for a new timer
-        document.getElementById("csrfForm2").submit();
+// Wait before submitting the second form
+setTimeout(function () {
+document.getElementById("csrfForm2").submit();
+ }, 1000); // delay in milliseconds (1 second)
     }
     
 </script>
